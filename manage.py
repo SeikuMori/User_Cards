@@ -6,6 +6,7 @@ import sys
 
 def main():
     """Run administrative tasks."""
+    # Устанавливаем модуль настроек по умолчанию для команды manage.py
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'personal_card_system.settings')
     try:
         from django.core.management import execute_from_command_line

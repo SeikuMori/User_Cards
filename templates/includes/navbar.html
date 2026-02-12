@@ -1,0 +1,14 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'cards:person_list' %}">
+            <i class="fas fa-id-card"></i> {{ t.title.app|default:"Карточки людей" }}
+        </a>
+        
+        <div class="d-flex">
+            {% with current_url=request.path %}
+                <a href="?lang=ru" class="btn btn-outline-light btn-sm me-2">RU</a>
+                <a href="?lang=en" class="btn btn-outline-light btn-sm">EN</a>
+                {% endwith %}
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,24 @@
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="{{ request.LANGUAGE|default:'ru' }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Карточки людей{% endblock %}</title>
+
+    {% bootstrap_css %}          <!-- ← Короткое имя: работает в 25.3 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { padding-top: 70px; }
+    </style>
+</head>
+<body>
+    {% include "includes/navbar.html" %}
+
+    <div class="container mt-4">
+        {% block content %}{% endblock %}
+    </div>
+
+    {% bootstrap_javascript %}   <!-- ← Короткое имя: работает в 25.3 -->
+</body>
+</html>

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{#
+    Шаблон формы добавления/редактирования человека.
+    Используется одним и тем же шаблоном в CreateView и UpdateView.
+    В шаблоне применяются bootstrap-теги через `django_bootstrap5`.
+    Поле `photo` обернуто в кастомный UI: скрытое <input type="file"> и кнопка-лейбл.
+#}
+
+{% block title %}{{ t.title.add|default:"Добавить человека" }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="mb-4">{{ t.title.add|default:"Добавить человека" }}</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% bootstrap_field form.last_name label=t.label.last_name|default:form.last_name.label placeholder=t.label.last_name|default:form.last_name.label %}
+            {% bootstrap_field form.first_name label=t.label.first_name|default:form.first_name.label placeholder=t.label.first_name|default:form.first_name.label %}
+            {% bootstrap_field form.middle_name label=t.label.middle_name|default:form.middle_name.label placeholder=t.label.middle_name|default:form.middle_name.label %}
+            {% bootstrap_field form.birth_date label=t.label.birth_date|default:form.birth_date.label placeholder=t.label.birth_date|default:form.birth_date.label %}
+
+            <div class="mb-3">
+                <label class="form-label">{{ t.label.photo|default:form.photo.label }}</label>
+                <div class="d-flex align-items-center">
+                    <label for="id_photo" class="btn btn-outline-secondary me-2">{{ t.file.choose|default:'Выберите файл' }}</label>
+                    <span id="photo-file-name" class="text-muted">{{ t.file.no_file|default:'Файл не выбран' }}</span>
+                </div>
+                <input type="file" name="photo" id="id_photo" style="display:none">
+            </div>
+
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save me-2"></i>{{ t.button.save|default:"Сохранить" }}
+            </button>
+            <a href="{% url 'cards:person_list' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>{{ t.button.back|default:"Назад" }}
+            </a>
+        </form>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    var photoInput = document.getElementById('id_photo');
+    var nameDiv = document.getElementById('photo-file-name');
+    if(photoInput && nameDiv){
+        photoInput.addEventListener('change', function(e){
+            var fileName = '';
+            if(this.files && this.files.length > 0){
+                fileName = this.files[0].name;
+            }
+            if(!fileName){
+                nameDiv.textContent = '{{ t.file.no_file|default:"Файл не выбран" }}';
+            } else {
+                nameDiv.textContent = fileName;
+            }
+        });
+    }
+});
+</script>
+{% endblock %}
